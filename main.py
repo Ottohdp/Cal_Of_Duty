@@ -48,7 +48,7 @@ class Cal_On_Duty(arcade.Window):
     )
     arcade.draw_circle_filled(SCREEN_WIDTH+1, -1, RADIUS, arcade.color.GRAY
     )
-
+# note her
 def main():
     game = Cal_On_Duty(WIDTH, HEIGHT, SCREEN_TITLE)
     game.setup()
