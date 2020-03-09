@@ -24,11 +24,11 @@ class Cal_On_Duty(arcade.Window):
     def __init__(self, width , height, title):
         super().__init__(width, height, title)
 
-        self.enemies.list = arcade.SpriteList()
+        self.enemies_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
 
     def setup(self):
-        self.player = arcade.Sprite("images/Cal_front.png", SCALING)
+        self.player = arcade.Sprite("Images/Cal_front.png", SCALING)
         self.player.center_y = self.height/2
         self.player.center_x = self.width/2
         self.all_sprites.append(self.player)
@@ -49,11 +49,13 @@ class Cal_On_Duty(arcade.Window):
     arcade.draw_circle_filled(SCREEN_WIDTH+1, -1, RADIUS, arcade.color.GRAY
     )
 # note her
-def main():
-    game = Cal_On_Duty(WIDTH, HEIGHT, SCREEN_TITLE)
-    game.setup()
-    arcade.run()
-# Display everything
+class Welcome(arcade.Window):
+    def __init__(self):
+        "Initialize the window"
+        # Call the parent class constructor
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
+# Main code entry point
 if __name__ == "__main__":
-    main()
+    app = Welcome()
+    arcade.run()
