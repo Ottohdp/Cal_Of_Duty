@@ -82,7 +82,6 @@ class COD(arcade.Window):
         self.all_sprites.draw()
 
 
-
 # Main code entry point
 if __name__ == "__main__":
     app = COD(int(SCREEN_WIDTH * SCALING), int(SCREEN_HEIGHT * SCALING), SCREEN_TITLE)
