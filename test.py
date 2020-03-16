@@ -2,12 +2,14 @@
 # Displays a white window with a blue circle in the middle
 
 # Imports
+from typing import Tuple
+
 import arcade
 import random
 
 # Constants
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 700
+SCREEN_WIDTH = 2400
+SCREEN_HEIGHT = 1300
 SCREEN_TITLE = "Cal is on duty"
 RADIUS = 50
 WIDTH = SCREEN_WIDTH - 20
@@ -22,11 +24,6 @@ class FlyingSprite(arcade.Sprite):
 
         # Move the sprite
         super().update()
-
-        # Remove us if we're off screen
-        if self.right < 0:
-            self.remove_from_sprite_lists()
-
 
 class COD(arcade.Window):
 
@@ -48,7 +45,7 @@ class COD(arcade.Window):
         self.all_sprites.append(self.player)
 
         # Spawn a new enemy every second
-        arcade.schedule(self.add_enemy, 5.0)
+        arcade.schedule(self.add_enemy, 0.1)
 
         self.paused = False
         self.collided = False
@@ -58,22 +55,57 @@ class COD(arcade.Window):
         # First, create the new enemy sprite
         enemy = arcade.Sprite("images/zombie.png", SCALING, image_width=90, image_height=150)
 
-        # Set its position to a random height and off screen right
-        # enemy.left = random.randint(self.width, self.width + 80)
-        # enemy.top = random.randint(10, self.height - 10)
-        enemy.center_y = self.height / 3
-        enemy.center_x = self.width / 3
+        for x in range(1):
+            placering = random.randint(1, 4)
+            print(placering)
 
-        # Set its position to a random height and off screen right
-        enemy.left = random.randint(self.width, self.width)
-        enemy.top = random.randint(10, self.height)
+            if placering == 1:
+                # Set its position to a random height and off screen right
+                enemy.left = random.randint(self.width + 90, self.width + 90)
+                enemy.top = random.randint(100, self.height)
 
-        # Set its speed to a random speed heading left
-        enemy.velocity = (random.randint(-200, -50), 0)
+                # Set its speed to a random speed heading left
+                enemy.velocity = (random.randint(-50, -50), 0)
 
-        # Add it to the enemies list
-        self.enemies_list.append(enemy)
-        self.all_sprites.append(enemy)
+                # Add it to the enemies list
+                self.enemies_list.append(enemy)
+                self.all_sprites.append(enemy)
+
+            if placering == 2:
+                # Set its position to a random height and off screen right
+                enemy.left = random.randint(0, self.width - 90)
+                enemy.top = random.randint(self.height + 150, self.height + 150)
+
+                # Set its speed to a random speed heading left
+                enemy.velocity = (random.randint(0, 0), -50)
+
+                # Add it to the enemies list
+                self.enemies_list.append(enemy)
+                self.all_sprites.append(enemy)
+
+            if placering == 3:
+                # Set its position to a random height and off screen right
+                enemy.left = random.randint(-90, -90)
+                enemy.top = random.randint(100, self.height)
+
+                # Set its speed to a random speed heading left
+                enemy.velocity = (random.randint(50, 50), 0)
+
+                # Add it to the enemies list
+                self.enemies_list.append(enemy)
+                self.all_sprites.append(enemy)
+
+            if placering == 4:
+                # Set its position to a random height and off screen right
+                enemy.left = random.randint(0, self.width - 90)
+                enemy.top = random.randint(-150, -150)
+
+                # Set its speed to a random speed heading left
+                enemy.velocity = (random.randint(0, 0), 50)
+
+                # Add it to the enemies list
+                self.enemies_list.append(enemy)
+                self.all_sprites.append(enemy)
 
     def on_key_press(self, symbol, modifiers):
 
@@ -85,18 +117,18 @@ class COD(arcade.Window):
             self.paused = not self.paused
 
         if symbol == arcade.key.I or symbol == arcade.key.UP:
-            self.player.change_y = 250
+            self.player.change_y = 180
             arcade.play_sound(self.move_up_sound)
 
         if symbol == arcade.key.K or symbol == arcade.key.DOWN:
-            self.player.change_y = -250
+            self.player.change_y = -180
             arcade.play_sound(self.move_down_sound)
 
         if symbol == arcade.key.J or symbol == arcade.key.LEFT:
-            self.player.change_x = -250
+            self.player.change_x = -180
 
         if symbol == arcade.key.L or symbol == arcade.key.RIGHT:
-            self.player.change_x = 250
+            self.player.change_x = 180
 
     def on_key_release(self, symbol: int, modifiers: int):
 
@@ -173,7 +205,6 @@ class COD(arcade.Window):
         # arcade.draw_circle_filled(SCREEN_WIDTH + 1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
         # arcade.draw_circle_filled(SCREEN_WIDTH + 1, -1, RADIUS, arcade.color.GRAY)
         self.all_sprites.draw()
-
 
 # Main code entry point
 if __name__ == "__main__":
