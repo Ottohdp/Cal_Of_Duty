@@ -48,7 +48,7 @@ class COD(arcade.Window):
         self.all_sprites.append(self.player)
 
         # Spawn a new enemy every second
-        arcade.schedule(self.add_enemy, 1.0)
+        arcade.schedule(self.add_enemy, 5.0)
 
         self.paused = False
         self.collided = False
@@ -64,12 +64,105 @@ class COD(arcade.Window):
         enemy.center_y = self.height / 3
         enemy.center_x = self.width / 3
 
+        # Set its position to a random height and off screen right
+        enemy.left = random.randint(self.width, self.width)
+        enemy.top = random.randint(10, self.height)
+
         # Set its speed to a random speed heading left
-        # enemy.velocity = (random.randint(-20, -5), 0)
+        enemy.velocity = (random.randint(-200, -50), 0)
 
         # Add it to the enemies list
         self.enemies_list.append(enemy)
         self.all_sprites.append(enemy)
+
+    def on_key_press(self, symbol, modifiers):
+
+        if symbol == arcade.key.Q:
+            # Quit immediately
+            arcade.close_window()
+
+        if symbol == arcade.key.P:
+            self.paused = not self.paused
+
+        if symbol == arcade.key.I or symbol == arcade.key.UP:
+            self.player.change_y = 250
+            arcade.play_sound(self.move_up_sound)
+
+        if symbol == arcade.key.K or symbol == arcade.key.DOWN:
+            self.player.change_y = -250
+            arcade.play_sound(self.move_down_sound)
+
+        if symbol == arcade.key.J or symbol == arcade.key.LEFT:
+            self.player.change_x = -250
+
+        if symbol == arcade.key.L or symbol == arcade.key.RIGHT:
+            self.player.change_x = 250
+
+    def on_key_release(self, symbol: int, modifiers: int):
+
+        if (
+            symbol == arcade.key.I
+            or symbol == arcade.key.K
+            or symbol == arcade.key.UP
+            or symbol == arcade.key.DOWN
+        ):
+            self.player.change_y = 0
+
+        if (
+            symbol == arcade.key.J
+            or symbol == arcade.key.L
+            or symbol == arcade.key.LEFT
+            or symbol == arcade.key.RIGHT
+        ):
+            self.player.change_x = 0
+
+    def on_update(self, delta_time: float):
+        """Update the positions and statuses of all game objects
+        If we're paused, do nothing
+        Once everything has moved, check for collisions between
+        the player and the list of enemies
+
+        Arguments:
+            delta_time {float} -- Time since the last update
+        """
+
+        # Did we collide with something earlier? If so, update our timer
+        if self.collided:
+            self.collision_timer += delta_time
+            # If we've paused for two seconds, we can quit
+            if self.collision_timer > 2.0:
+                arcade.close_window()
+            # Stop updating things as well
+            return
+
+        # If we're paused, don't update anything
+        if self.paused:
+            return
+
+        # Did we hit anything? If so, end the game
+        #if self.player.collides_with_list(self.enemies_list):
+            #self.collided = True
+            #self.collision_timer = 0.0
+
+        # Update everything
+        for sprite in self.all_sprites:
+            sprite.center_x = int(
+                sprite.center_x + sprite.change_x * delta_time
+            )
+            sprite.center_y = int(
+                sprite.center_y + sprite.change_y * delta_time
+            )
+        # self.all_sprites.update()
+
+        # Keep the player on screen
+        if self.player.top > self.height:
+            self.player.top = self.height
+        if self.player.right > self.width:
+            self.player.right = self.width
+        if self.player.bottom < 0:
+            self.player.bottom = 0
+        if self.player.left < 0:
+            self.player.left = 0
 
     def on_draw(self):
         # Clear the screen and start drawing
