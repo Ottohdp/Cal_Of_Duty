@@ -56,10 +56,9 @@ class COD(arcade.Window):
         enemy = arcade.Sprite("images/zombie.png", SCALING, image_width=90, image_height=150)
 
         for x in range(1):
-            placering = random.randint(1, 4)
-            print(placering)
+            spawn = random.randint(1, 4)
 
-            if placering == 1:
+            if spawn == 1:
                 # Set its position to a random height and off screen right
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
@@ -71,7 +70,7 @@ class COD(arcade.Window):
                 self.enemies_list.append(enemy)
                 self.all_sprites.append(enemy)
 
-            if placering == 2:
+            if spawn == 2:
                 # Set its position to a random height and off screen right
                 enemy.left = random.randint(0, self.width - 90)
                 enemy.top = random.randint(self.height + 150, self.height + 150)
@@ -83,7 +82,7 @@ class COD(arcade.Window):
                 self.enemies_list.append(enemy)
                 self.all_sprites.append(enemy)
 
-            if placering == 3:
+            if spawn == 3:
                 # Set its position to a random height and off screen right
                 enemy.left = random.randint(-90, -90)
                 enemy.top = random.randint(100, self.height)
@@ -95,7 +94,7 @@ class COD(arcade.Window):
                 self.enemies_list.append(enemy)
                 self.all_sprites.append(enemy)
 
-            if placering == 4:
+            if spawn == 4:
                 # Set its position to a random height and off screen right
                 enemy.left = random.randint(0, self.width - 90)
                 enemy.top = random.randint(-150, -150)
