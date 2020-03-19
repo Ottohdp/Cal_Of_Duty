@@ -8,22 +8,55 @@ import arcade
 import random
 
 # Constants
-SCREEN_WIDTH = 2400
-SCREEN_HEIGHT = 1300
+SCREEN_WIDTH = 1400
+SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Cal is on duty"
 RADIUS = 50
 WIDTH = SCREEN_WIDTH - 20
 HEIGHT = SCREEN_HEIGHT - 20
 SCALING = 0.7
 
+TEXTURE_LEFT = 0
+TEXTURE_RIGHT = 1
+TEXTURE_UP = 2
+TEXTURE_DOWN = 3
 
 # Classes
-class FlyingSprite(arcade.Sprite):
+class player(arcade.Sprite):
+
+    def __init__(self):
+        super().__init__()
+
+        self.textures = []
+        # Load a left facing texture and a right facing texture.
+        # mirrored=True will mirror the image we load.
+        texture = arcade.load_texture("images/Cal_front.png")
+        self.textures.append(TEXTURE_DOWN)
+        texture = arcade.load_texture("images/Cal_bag.png")
+        self.textures.append(TEXTURE_UP)
+        texture = arcade.load_texture("images/Cal_venstre.png")
+        self.textures.append(TEXTURE_LEFT)
+        texture = arcade.load_texture("images/Cal_højre.png")
+        self.textures.append(TEXTURE_RIGHT)
+
+        self.set_texture(TEXTURE_DOWN)
 
     def update(self):
+        # Figure out if we should face left or right
+        if self.change_x < 0:
+            self.texture = self.textures[TEXTURE_LEFT]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_RIGHT]
 
-        # Move the sprite
-        super().update()
+        if self.left < 0:
+            self.left = 0
+        elif self.right > SCREEN_WIDTH - 1:
+            self.right = SCREEN_WIDTH - 1
+
+        if self.bottom < 0:
+            self.bottom = 0
+        elif self.top > SCREEN_HEIGHT - 1:
+            self.top = SCREEN_HEIGHT - 1
 
 class COD(arcade.Window):
 
@@ -63,10 +96,9 @@ class COD(arcade.Window):
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
 
-                # Set its speed to a random speed heading left
                 enemy.velocity = (random.randint(-50, -50), 0)
 
-                # Add it to the enemies list
+                #Add it to the enemies list
                 self.enemies_list.append(enemy)
                 self.all_sprites.append(enemy)
 
@@ -115,33 +147,33 @@ class COD(arcade.Window):
         if symbol == arcade.key.P:
             self.paused = not self.paused
 
-        if symbol == arcade.key.I or symbol == arcade.key.UP:
+        if symbol == arcade.key.W or symbol == arcade.key.UP:
             self.player.change_y = 180
             arcade.play_sound(self.move_up_sound)
 
-        if symbol == arcade.key.K or symbol == arcade.key.DOWN:
+        if symbol == arcade.key.S or symbol == arcade.key.DOWN:
             self.player.change_y = -180
             arcade.play_sound(self.move_down_sound)
 
-        if symbol == arcade.key.J or symbol == arcade.key.LEFT:
+        if symbol == arcade.key.A or symbol == arcade.key.LEFT:
             self.player.change_x = -180
 
-        if symbol == arcade.key.L or symbol == arcade.key.RIGHT:
+        if symbol == arcade.key.D or symbol == arcade.key.RIGHT:
             self.player.change_x = 180
 
     def on_key_release(self, symbol: int, modifiers: int):
 
         if (
-            symbol == arcade.key.I
-            or symbol == arcade.key.K
+            symbol == arcade.key.W
+            or symbol == arcade.key.S
             or symbol == arcade.key.UP
             or symbol == arcade.key.DOWN
         ):
             self.player.change_y = 0
 
         if (
-            symbol == arcade.key.J
-            or symbol == arcade.key.L
+            symbol == arcade.key.A
+            or symbol == arcade.key.D
             or symbol == arcade.key.LEFT
             or symbol == arcade.key.RIGHT
         ):
