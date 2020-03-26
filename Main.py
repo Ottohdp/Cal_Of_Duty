@@ -8,8 +8,8 @@ import arcade
 import random
 
 # Constants
-SCREEN_WIDTH = 1400
-SCREEN_HEIGHT = 900
+SCREEN_WIDTH = 1800
+SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Cal is on duty"
 RADIUS = 50
 WIDTH = SCREEN_WIDTH - 20
@@ -59,6 +59,7 @@ class Player(arcade.Sprite):
 
         self.texture = self.idle_texture_pair[self.cur_texture][self.character_face_direction]
 
+
 class COD(arcade.Window):
 
     def __init__(self, width, height, title):
@@ -86,7 +87,7 @@ class COD(arcade.Window):
         self.all_sprites.append(self.player_sprite)
 
         # Spawn a new enemy every second
-        arcade.schedule(self.add_enemy, 0.5)
+        arcade.schedule(self.add_enemy, 1)
 
         self.paused = False
         self.collided = False
@@ -104,7 +105,7 @@ class COD(arcade.Window):
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
 
-                enemy.velocity = (random.randint(-50, -50), 0)
+                enemy.velocity = (random.randint(-90, -30), 0)
 
                 #Add it to the enemies list
                 self.enemies_list.append(enemy)
@@ -250,5 +251,3 @@ if __name__ == "__main__":
     app = COD(int(SCREEN_WIDTH * SCALING), int(SCREEN_HEIGHT * SCALING), SCREEN_TITLE)
     app.setup()
     arcade.run()
-
-print("hej")
