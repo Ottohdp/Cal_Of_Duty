@@ -17,9 +17,7 @@ RIGHT_FACING = 0
 LEFT_FACING = 1
 
 
-
 def load_texture_pair(filename):
-
     return [
         arcade.load_texture(filename),
         arcade.load_texture(filename, mirrored=True)
@@ -42,7 +40,7 @@ class Player(arcade.Sprite):
 
         self.texture = self.idle_texture_pair[0]
 
-    def update_animation(self, delta_time: float = 1/60):
+    def update_animation(self, delta_time: float = 1 / 60):
 
         if self.change_x < 0 and self.character_face_direction == RIGHT_FACING:
             self.character_face_direction = LEFT_FACING
@@ -103,45 +101,45 @@ class COD(arcade.Window):
 
                 enemy.velocity = (random.randint(-90, -30), 0)
 
-                #Add it to the enemies list
+                # Add it to the enemies list
                 self.enemies_list.append(enemy)
                 self.all_sprites.append(enemy)
 
-            #if spawn == 2:
-                # Set its position to a random height and off screen right
-                #enemy.left = random.randint(0, self.width - 90)
-                #enemy.top = random.randint(self.height + 150, self.height + 150)
+            # if spawn == 2:
+            # Set its position to a random height and off screen right
+            # enemy.left = random.randint(0, self.width - 90)
+            # enemy.top = random.randint(self.height + 150, self.height + 150)
 
-                # Set its speed to a random speed heading left
-                #enemy.velocity = (random.randint(0, 0), -50)
+            # Set its speed to a random speed heading left
+            # enemy.velocity = (random.randint(0, 0), -50)
 
-                # Add it to the enemies list
-                #self.enemies_list.append(enemy)
-                #self.all_sprites.append(enemy)
+            # Add it to the enemies list
+            # self.enemies_list.append(enemy)
+            # self.all_sprites.append(enemy)
 
-            #if spawn == 3:
-                # Set its position to a random height and off screen right
-                #enemy.left = random.randint(-90, -90)
-                #enemy.top = random.randint(100, self.height)
+            # if spawn == 3:
+            # Set its position to a random height and off screen right
+            # enemy.left = random.randint(-90, -90)
+            # enemy.top = random.randint(100, self.height)
 
-                # Set its speed to a random speed heading left
-                #enemy.velocity = (random.randint(50, 50), 0)
+            # Set its speed to a random speed heading left
+            # enemy.velocity = (random.randint(50, 50), 0)
 
-                # Add it to the enemies list
-                #self.enemies_list.append(enemy)
-                #self.all_sprites.append(enemy)
+            # Add it to the enemies list
+            # self.enemies_list.append(enemy)
+            # self.all_sprites.append(enemy)
 
-            #if spawn == 4:
-                # Set its position to a random height and off screen right
-                #enemy.left = random.randint(0, self.width - 90)
-                #enemy.top = random.randint(-150, -150)
+            # if spawn == 4:
+            # Set its position to a random height and off screen right
+            # enemy.left = random.randint(0, self.width - 90)
+            # enemy.top = random.randint(-150, -150)
 
-                # Set its speed to a random speed heading left
-                #enemy.velocity = (random.randint(0, 0), 50)
+            # Set its speed to a random speed heading left
+            # enemy.velocity = (random.randint(0, 0), 50)
 
-                # Add it to the enemies list
-                #self.enemies_list.append(enemy)
-                #self.all_sprites.append(enemy)
+            # Add it to the enemies list
+            # self.enemies_list.append(enemy)
+            # self.all_sprites.append(enemy)
 
     def on_key_press(self, symbol, modifiers):
 
@@ -167,19 +165,19 @@ class COD(arcade.Window):
     def on_key_release(self, symbol: int, modifiers: int):
 
         if (
-            symbol == arcade.key.W
-            or symbol == arcade.key.S
-            or symbol == arcade.key.UP
-            or symbol == arcade.key.DOWN
+                symbol == arcade.key.W
+                or symbol == arcade.key.S
+                or symbol == arcade.key.UP
+                or symbol == arcade.key.DOWN
         ):
             self.player_sprite.change_y = 0
             arcade.Sprite("images/Cal_bag.png", SCALING, image_width=70, image_height=150)
 
         if (
-            symbol == arcade.key.A
-            or symbol == arcade.key.D
-            or symbol == arcade.key.LEFT
-            or symbol == arcade.key.RIGHT
+                symbol == arcade.key.A
+                or symbol == arcade.key.D
+                or symbol == arcade.key.LEFT
+                or symbol == arcade.key.RIGHT
         ):
             self.player_sprite.change_x = 0
 
@@ -211,7 +209,6 @@ class COD(arcade.Window):
             self.collided = True
             self.collision_timer = 0.0
 
-
         # Update everything
         for sprite in self.all_sprites:
             sprite.center_x = int(
@@ -241,6 +238,7 @@ class COD(arcade.Window):
         # arcade.draw_circle_filled(SCREEN_WIDTH + 1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
         # arcade.draw_circle_filled(SCREEN_WIDTH + 1, -1, RADIUS, arcade.color.GRAY)
         self.all_sprites.draw()
+
 
 # Main code entry point
 if __name__ == "__main__":
