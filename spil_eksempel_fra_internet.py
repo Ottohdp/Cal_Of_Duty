@@ -238,7 +238,6 @@ class SpaceShooter(arcade.Window):
     def on_draw(self):
         """Draw all game objects
         """
-
         arcade.start_render()
         self.all_sprites.draw()
 

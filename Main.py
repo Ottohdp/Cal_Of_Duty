@@ -1,11 +1,7 @@
-# Basic arcade program using objects
-# Displays a white window with a blue circle in the middle
-
 # Imports
-from typing import Tuple
-
-import arcade
 import random
+import arcade
+import time
 
 # Constants
 SCREEN_WIDTH = 1800
@@ -159,7 +155,6 @@ class COD(arcade.Window):
         if symbol == arcade.key.W or symbol == arcade.key.UP:
             self.player_sprite.change_y = 180
 
-
         if symbol == arcade.key.S or symbol == arcade.key.DOWN:
             self.player_sprite.change_y = -180
 
@@ -212,9 +207,10 @@ class COD(arcade.Window):
             return
 
         # Did we hit anything? If so, end the game
-        #if self.player.collides_with_list(self.enemies_list):
-            #self.collided = True
-            #self.collision_timer = 0.0
+        if self.player_sprite.collides_with_list(self.enemies_list):
+            self.collided = True
+            self.collision_timer = 0.0
+
 
         # Update everything
         for sprite in self.all_sprites:
