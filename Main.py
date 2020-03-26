@@ -1,11 +1,16 @@
+# Basic arcade program using objects
+# Displays a white window with a blue circle in the middle
+
 # Imports
-import random
+from typing import Tuple
+
 import arcade
+import random
 import time
 
 # Constants
-SCREEN_WIDTH = 1800
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 1400
+SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Cal is on duty"
 RADIUS = 50
 WIDTH = SCREEN_WIDTH - 20
@@ -55,7 +60,6 @@ class Player(arcade.Sprite):
 
         self.texture = self.idle_texture_pair[self.cur_texture][self.character_face_direction]
 
-
 class COD(arcade.Window):
 
     def __init__(self, width, height, title):
@@ -83,7 +87,7 @@ class COD(arcade.Window):
         self.all_sprites.append(self.player_sprite)
 
         # Spawn a new enemy every second
-        arcade.schedule(self.add_enemy, 1)
+        arcade.schedule(self.add_enemy, 0.5)
 
         self.paused = False
         self.collided = False
@@ -101,7 +105,7 @@ class COD(arcade.Window):
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
 
-                enemy.velocity = (random.randint(-90, -30), 0)
+                enemy.velocity = (random.randint(-50, -50), 0)
 
                 #Add it to the enemies list
                 self.enemies_list.append(enemy)
@@ -155,6 +159,7 @@ class COD(arcade.Window):
         if symbol == arcade.key.W or symbol == arcade.key.UP:
             self.player_sprite.change_y = 180
 
+
         if symbol == arcade.key.S or symbol == arcade.key.DOWN:
             self.player_sprite.change_y = -180
 
@@ -192,13 +197,17 @@ class COD(arcade.Window):
         Arguments:
             delta_time {float} -- Time since the last update
         """
-
+        liv = 3
         # Did we collide with something earlier? If so, update our timer
         if self.collided:
             self.collision_timer += delta_time
             # If we've paused for two seconds, we can quit
             if self.collision_timer > 2.0:
+                liv = liv-1
+                time.sleep(3)
+            if liv == 0:
                 arcade.close_window()
+
             # Stop updating things as well
             return
 
@@ -210,7 +219,6 @@ class COD(arcade.Window):
         if self.player_sprite.collides_with_list(self.enemies_list):
             self.collided = True
             self.collision_timer = 0.0
-
 
         # Update everything
         for sprite in self.all_sprites:
