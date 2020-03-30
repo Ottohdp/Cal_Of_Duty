@@ -21,66 +21,69 @@ BULLET_SPEED = 50
 
 RIGHT_FACING = 0
 LEFT_FACING = 1
-
-
-def load_texture_pair(filename):
-    return [
-        arcade.load_texture(filename),
-        arcade.load_texture(filename, mirrored=True)
-    ]
+TEXTURE_LEFT = 0
+TEXTURE_RIGHT = 1
 
 
 # Classes
+class Npcsprite(arcade.Sprite):
+
+    def update(self):
+        # ryk sprites
+        super().update()
+
+        # Fjern en sprite hvis den er uden for skærmen.
+        if self.right < 0:
+            self.remove_from_sprite_lists()
+
+
 class Player(arcade.Sprite):
 
     def __init__(self):
         super().__init__()
 
-        # Default to face-down
-        self.character_face_direction = RIGHT_FACING
-
-        self.cur_texture = 0
+        self.textures = []
+        # Load a left facing texture and a right facing texture.
+        # mirrored=True will mirror the image we load.
+        texture = arcade.load_texture("images/Cal_hjre.png")
+        self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_hjre.png", mirrored=True)
+        self.textures.append(texture)
         self.scale = CHARACTER_SCALING
+        # By default, face right.
+        self.set_texture(TEXTURE_RIGHT)
 
-        self.idle_texture_pair = load_texture_pair("images/Cal_hjre.png")
-
-        self.texture = self.idle_texture_pair[0]
-
-    def update_animation(self, delta_time: float = 1 / 60):
-
-        if self.change_x < 0 and self.character_face_direction == RIGHT_FACING:
-            self.character_face_direction = LEFT_FACING
-        elif self.change_x > 0 and self.character_face_direction == LEFT_FACING:
-            self.character_face_direction = RIGHT_FACING
-
-        if self.change_x == 0:
-            self.texture = self.idle_texture_pair[self.character_face_direction]
-            return
-
-        self.texture = self.idle_texture_pair[self.cur_texture][self.character_face_direction]
-
+    def update(self):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+        # Figure out if we should face left or right
+        if self.change_x < 0:
+            self.texture = self.textures[TEXTURE_LEFT]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_RIGHT]
+        if self.left < 0:
+            self.left = 0
+        elif self.right > SCREEN_WIDTH - 1:
+            self.right = SCREEN_WIDTH - 1
+        if self.bottom < 0:
+            self.bottom = 0
+        elif self.top > SCREEN_HEIGHT - 1:
+            self.top = SCREEN_HEIGHT - 1
 
 class COD(arcade.Window):
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
-        self.left_pressed = False
-        self.right_pressed = False
-        self.up_pressed = False
-        self.down_pressed = False
-
-        self.player_sprite = None
-        self.bullet_list = None
-
-    def setup(self):
-        # Set the background color
-        arcade.set_background_color(arcade.color.WHITE)
-
         # Setup the empty sprite lists
         self.enemies_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
+
+        # Set the background color
+        arcade.set_background_color(arcade.color.WHITE)
+
+    def setup(self):
 
         # Set up the player
         self.player_sprite = Player()
@@ -94,6 +97,10 @@ class COD(arcade.Window):
         self.paused = False
         self.collided = False
         self.collision_timer = 0.0
+
+    def moving(self, direction):
+        while True:
+            self.player.change_y = direction
 
     def add_enemy(self, delta_time: float):
         # First, create the new enemy sprite
@@ -166,9 +173,13 @@ class COD(arcade.Window):
 
         if symbol == arcade.key.A or symbol == arcade.key.LEFT:
             self.player_sprite.change_x = -180
+            # Sprite vendes
+            self.player_sprite.set_texture(TEXTURE_RIGHT)
 
         if symbol == arcade.key.D or symbol == arcade.key.RIGHT:
             self.player_sprite.change_x = 180
+            # Sprite vendes:
+            self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.SPACE:
             # Create a bullet
@@ -188,7 +199,6 @@ class COD(arcade.Window):
                 or symbol == arcade.key.DOWN
         ):
             self.player_sprite.change_y = 0
-            arcade.Sprite("images/Cal_bag.png", SCALING, image_width=70, image_height=150)
 
         if (
                 symbol == arcade.key.A
