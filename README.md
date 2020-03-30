@@ -8,3 +8,11 @@ Den 26-03-2020
 
 - Vi arbejder på at indføre forskellige billeder til spilleren (Eskild, står hovedsageligt for det)
 
+Den 30-03-2020
+
+- Vi har tilføjet at man kigger forskellige retninger når man går i de retninger
+
+- Vi har tilføjet skud, som dræber zombierne og de skud kommer ud fra playeren position
+
+- Slettet unødvendig kode.
+
