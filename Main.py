@@ -172,7 +172,7 @@ class COD(arcade.Window):
 
         if symbol == arcade.key.SPACE:
             # Create a bullet
-            bullet = arcade.Sprite("images/skud.png", SCALING, image_width=30, image_height=10)
+            bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
             bullet_angle = 0
             bullet.change_x = BULLET_SPEED
             bullet.center_x = self.player_sprite.center_y
