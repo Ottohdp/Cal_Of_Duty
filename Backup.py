@@ -181,8 +181,8 @@ class COD(arcade.Window):
             bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
             bullet_angle = 0
             bullet.change_x = BULLET_SPEED
-            bullet.center_x = self.player_sprite.center_y
-            bullet.bottom = self.player_sprite.right
+            bullet.center_x = self.player_sprite.center_x
+            bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
 
     def on_key_release(self, symbol: int, modifiers: int):
