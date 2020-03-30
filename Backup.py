@@ -271,11 +271,6 @@ class COD(arcade.Window):
     def on_draw(self):
         # Clear the screen and start drawing
         arcade.start_render()
-        # arcade.draw_xywh_rectangle_outline(10, 10, WIDTH, HEIGHT, arcade.color.BLACK)
-        # arcade.draw_circle_filled(-1, -1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(-1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(SCREEN_WIDTH + 1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(SCREEN_WIDTH + 1, -1, RADIUS, arcade.color.GRAY)
         self.all_sprites.draw()
         self.bullet_list.draw()
 
