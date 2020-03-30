@@ -174,12 +174,12 @@ class COD(arcade.Window):
         if symbol == arcade.key.A or symbol == arcade.key.LEFT:
             self.player_sprite.change_x = -180
             # Sprite vendes
-            self.player.set_texture(TEXTURE_RIGHT)
+            self.player_sprite.set_texture(TEXTURE_RIGHT)
 
         if symbol == arcade.key.D or symbol == arcade.key.RIGHT:
             self.player_sprite.change_x = 180
             # Sprite vendes:
-            self.player.set_texture(TEXTURE_LEFT)
+            self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.SPACE:
             # Create a bullet
