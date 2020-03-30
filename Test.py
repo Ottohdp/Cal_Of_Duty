@@ -21,9 +21,12 @@ BULLET_SPEED = 50
 
 RIGHT_FACING = 0
 LEFT_FACING = 1
+Up_FACING = 2
+DOWN_FACING = 3
 TEXTURE_LEFT = 0
 TEXTURE_RIGHT = 1
-
+TEXTURE_UP = 2
+TEXTURE_DOWN = 3
 
 # Classes
 class Npcsprite(arcade.Sprite):
@@ -49,9 +52,13 @@ class Player(arcade.Sprite):
         self.textures.append(texture)
         texture = arcade.load_texture("images/Cal_hjre.png", mirrored=True)
         self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_bag.png")
+        self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_front.png")
+        self.textures.append(texture)
         self.scale = CHARACTER_SCALING
         # By default, face right.
-        self.set_texture(TEXTURE_RIGHT)
+        self.set_texture(TEXTURE_LEFT)
 
     def update(self):
         self.center_x += self.change_x
@@ -61,14 +68,10 @@ class Player(arcade.Sprite):
             self.texture = self.textures[TEXTURE_LEFT]
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_RIGHT]
-        if self.left < 0:
-            self.left = 0
-        elif self.right > SCREEN_WIDTH - 1:
-            self.right = SCREEN_WIDTH - 1
-        if self.bottom < 0:
-            self.bottom = 0
-        elif self.top > SCREEN_HEIGHT - 1:
-            self.top = SCREEN_HEIGHT - 1
+        if self.change_y < 0:
+            self.texture = self.textures[TEXTURE_UP]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_DOWN]
 
 class COD(arcade.Window):
 
@@ -167,9 +170,13 @@ class COD(arcade.Window):
 
         if symbol == arcade.key.W or symbol == arcade.key.UP:
             self.player_sprite.change_y = 180
+            # Sprite vendes
+            self.player_sprite.set_texture(TEXTURE_UP)
 
         if symbol == arcade.key.S or symbol == arcade.key.DOWN:
             self.player_sprite.change_y = -180
+            # Sprite vendes
+            self.player_sprite.set_texture(TEXTURE_DOWN)
 
         if symbol == arcade.key.A or symbol == arcade.key.LEFT:
             self.player_sprite.change_x = -180
