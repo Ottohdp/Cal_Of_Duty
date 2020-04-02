@@ -6,8 +6,6 @@ Vi har prøvet at lave et **2d zombie-skydespil**. I vores spil vil der spawne z
 
 Følgende ting kan ændre sig (*ting vi vil arbejde på*):
 
-Spilleren har 3 liv.
-
 Pointsystem som viser hvor mange zombier du har dræbt
 
 Pengesystem som eventuelt bruger point som penge der eventuelt kan bruges til våben, liv med mere.
