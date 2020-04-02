@@ -38,6 +38,7 @@ class Npcsprite(arcade.Sprite):
         # Fjern en sprite hvis den er uden for skærmen.
         if self.right < 0:
             self.remove_from_sprite_lists()
+            self.HP += -1
 
 
 class Player(arcade.Sprite):
@@ -100,6 +101,7 @@ class COD(arcade.Window):
         self.paused = False
         self.collided = False
         self.collision_timer = 0.0
+        self.HP = 3
 
     def moving(self, direction):
         while True:
@@ -241,16 +243,28 @@ class COD(arcade.Window):
             if bullet.bottom > SCREEN_WIDTH:
                 bullet.remove_from_sprite_lists()
 
-        liv = 3
+        if self.HP == 0:
+            time.sleep(2)
+            arcade.close_window()
         # Did we collide with something earlier? If so, update our timer
         if self.collided:
-            self.collision_timer += delta_time
-            # If we've paused for two seconds, we can quit
-            if self.collision_timer > 2.0:
-                liv = liv - 1
-                time.sleep(3)
-            if liv == 0:
-                arcade.close_window()
+            for enemy in self.enemies_list:
+
+                enemy_hit = arcade.check_for_collision_with_list(self.player_sprite, self.enemies_list)
+
+                if len(enemy_hit) > 0:
+                    enemy.remove_from_sprite_lists()
+
+                for enemy in enemy_hit:
+                    enemy.remove_from_sprite_lists()
+
+                    self.collided = False
+                    self.HP -= 1
+
+            #self.collision_timer += delta_time
+            # If we've paused for two seconds, we can quitw
+            #if self.collision_timer > 2.0:
+                #arcade.close_window()
 
             # Stop updating things as well
             return
@@ -272,7 +286,6 @@ class COD(arcade.Window):
             sprite.center_y = int(
                 sprite.center_y + sprite.change_y * delta_time
             )
-        # self.all_sprites.update()
 
         # Keep the player on screen
         if self.player_sprite.top > self.height:
