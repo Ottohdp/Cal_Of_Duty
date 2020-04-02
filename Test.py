@@ -197,6 +197,7 @@ class COD(arcade.Window):
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
 
+
     def on_key_release(self, symbol: int, modifiers: int):
 
         if (
