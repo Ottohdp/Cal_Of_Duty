@@ -39,3 +39,10 @@ Vi har tilføjet at man kigger forskellige retninger når man går i de retninge
 Vi har tilføjet skud, som dræber zombierne og de skud kommer ud fra playeren position.
 
 Slettet unødvendig kode.
+
+
+
+Den 02-04-2020
+
+Vi har tilføjet at man har 3 liv, hvor man mister 1 ved at støde ind i en zombie og zombien forsvinder så
+
