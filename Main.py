@@ -69,6 +69,7 @@ class Player(arcade.Sprite):
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_DOWN]
 
+
 class COD(arcade.Window):
 
     def __init__(self, width, height, title):
@@ -81,6 +82,8 @@ class COD(arcade.Window):
 
         # Set the background color
         arcade.set_background_color(arcade.color.WHITE)
+
+        self.score = 0
 
     def setup(self):
 
@@ -96,6 +99,7 @@ class COD(arcade.Window):
         self.paused = False
         self.collided = False
         self.HP = 3
+        self.score = 0
 
     def moving(self, direction):
         while True:
@@ -185,9 +189,9 @@ class COD(arcade.Window):
             self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.SPACE:
-            # Create a bullet
             bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
             bullet.change_x = BULLET_SPEED
+            bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
@@ -232,6 +236,7 @@ class COD(arcade.Window):
 
             for enemy in hit_list:
                 enemy.remove_from_sprite_lists()
+                self.score += 1
 
             # If the bullet flies off-screen, remove it.
             if bullet.bottom > SCREEN_WIDTH:
@@ -302,7 +307,12 @@ class COD(arcade.Window):
         self.all_sprites.draw()
         self.bullet_list.draw()
 
+        # Put the text on the screen.
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 20, arcade.color.BLACK, 14)
 
+        output = f"Lives: {self.HP}"
+        arcade.draw_text(output, 10, 40, arcade.color.RED, 20)
 
 # Main code entry point
 if __name__ == "__main__":
