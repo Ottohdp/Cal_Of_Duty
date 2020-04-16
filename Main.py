@@ -230,7 +230,7 @@ class COD(arcade.Window):
         for bullet in self.bullet_list:
 
             # Check this bullet to see if it hit a coin
-            hit_list = arcade.check_for_collision_with_list(bullet, self.enemies_list)
+            hit_list = arcade.check_for_collision_with_list(bullqet, self.enemies_list)
 
             # If it did, get rid of the bullet
             if len(hit_list) > 0:
