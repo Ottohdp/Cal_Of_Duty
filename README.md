@@ -1,6 +1,6 @@
 # Cal On Duty - Af Eskild og Otto
 
-Vi har prøvet at lave et **2d zombie-skydespil**. I vores spil vil der spawne zombier fra højre side som du bliver nød til at skyde for at overleve. Hvis du bliver ramt af en zombie, så taber du. Samt hvis zombierne når hen til den anden side af spillet, taber du også.
+Vi har prøvet at lave et **2d zombie-skydespil**. I vores spil vil der spawne zombier fra højre side som du bliver nød til at skyde for at overleve. Hvis du bliver ramt af en zombie 3 gange, så taber du. Samt hvis zombierne når hen til den anden side af spillet, taber du også.
 
 
 
@@ -44,3 +44,7 @@ Den 02-04-2020
 
 - Vi har tilføjet at man har 3 liv, hvor man mister 1 ved at støde ind i en zombie og zombien forsvinder så
 
+
+Den 16-04-2020
+- Vi har tilføjet point og de bliver displayed
+- Vi har tilføjet at ens liv bliver displayed.
