@@ -35,11 +35,6 @@ class Npcsprite(arcade.Sprite):
         # ryk sprites
         super().update()
 
-        # Fjern en sprite hvis den er uden for skærmen.
-        if self.right < 0:
-            self.remove_from_sprite_lists()
-            self.HP += -1
-
 
 class Player(arcade.Sprite):
 
@@ -100,7 +95,6 @@ class COD(arcade.Window):
 
         self.paused = False
         self.collided = False
-        self.collision_timer = 0.0
         self.HP = 3
 
     def moving(self, direction):
