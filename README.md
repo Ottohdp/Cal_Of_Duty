@@ -17,16 +17,14 @@ Forskellige niveauer/waves eller baner
 ![img](https://media.discordapp.net/attachments/687977293179912234/695242090971398164/unknown.png?width=720&height=470)
 
 
+Den 16-04-2020
+- Vi har tilføjet point og de bliver displayed
+- Vi har tilføjet at ens liv bliver displayed.
 
-Den 26-03-2020
 
-- Vi har tilføjet at man kan dø af at ramme enemies.03
+Den 02-04-2020
 
-- Vi har tilføjet at spillet lukker når en enemy rammer spilleren
-
-- Vi arbejder på at indføre skud (Otto, står hovedsageligt for det)
-
-- Vi arbejder på at indføre forskellige billeder til spilleren (Eskild, står hovedsageligt for det)
+- Vi har tilføjet at man har 3 liv, hvor man mister 1 ved at støde ind i en zombie og zombien forsvinder så
 
 
 
@@ -40,11 +38,13 @@ Den 30-03-2020
 
 
 
-Den 02-04-2020
+Den 26-03-2020
 
-- Vi har tilføjet at man har 3 liv, hvor man mister 1 ved at støde ind i en zombie og zombien forsvinder så
+- Vi har tilføjet at man kan dø af at ramme enemies.03
 
+- Vi har tilføjet at spillet lukker når en enemy rammer spilleren
 
-Den 16-04-2020
-- Vi har tilføjet point og de bliver displayed
-- Vi har tilføjet at ens liv bliver displayed.
+- Vi arbejder på at indføre skud (Otto, står hovedsageligt for det)
+
+- Vi arbejder på at indføre forskellige billeder til spilleren (Eskild, står hovedsageligt for det)
+
