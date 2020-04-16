@@ -19,13 +19,13 @@ Forskellige niveauer/waves eller baner
 
 Den 16-04-2020
 - Vi har tilføjet point og de bliver displayed
-- Vi har tilføjet at ens liv bliver displayed.
+- Vi har tilføjet at ens liv bliver displayed
+- Vi har arbejdet på at man skyde i den man som bevæger sig i, men vi fik det ikke til at virke
 
 
 Den 02-04-2020
 
 - Vi har tilføjet at man har 3 liv, hvor man mister 1 ved at støde ind i en zombie og zombien forsvinder så
-
 
 
 Den 30-03-2020 
@@ -35,7 +35,6 @@ Den 30-03-2020
 - Vi har tilføjet skud, som dræber zombierne og de skud kommer ud fra playeren position.
 
 - Slettet unødvendig kode.
-
 
 
 Den 26-03-2020
