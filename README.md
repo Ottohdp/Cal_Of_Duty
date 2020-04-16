@@ -6,8 +6,6 @@ Vi har prøvet at lave et **2d zombie-skydespil**. I vores spil vil der spawne z
 
 Følgende ting kan ændre sig (*ting vi vil arbejde på*):
 
-Spilleren har 3 liv.
-
 Pointsystem som viser hvor mange zombier du har dræbt
 
 Pengesystem som eventuelt bruger point som penge der eventuelt kan bruges til våben, liv med mere.
@@ -34,8 +32,15 @@ Den 26-03-2020
 
 Den 30-03-2020 
 
-Vi har tilføjet at man kigger forskellige retninger når man går i de retninger. 
+- Vi har tilføjet at man kigger forskellige retninger når man går i de retninger. 
 
-Vi har tilføjet skud, som dræber zombierne og de skud kommer ud fra playeren position.
+- Vi har tilføjet skud, som dræber zombierne og de skud kommer ud fra playeren position.
 
-Slettet unødvendig kode.
+- Slettet unødvendig kode.
+
+
+
+Den 02-04-2020
+
+- Vi har tilføjet at man har 3 liv, hvor man mister 1 ved at støde ind i en zombie og zombien forsvinder så
+
