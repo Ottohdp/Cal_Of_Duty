@@ -66,6 +66,7 @@ class Player(arcade.Sprite):
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_DOWN]
 
+
 class COD(arcade.Window):
 
     def __init__(self, width, height, title):
@@ -185,9 +186,9 @@ class COD(arcade.Window):
             self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.SPACE:
-            # Create a bullet
             bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
             bullet.change_x = BULLET_SPEED
+            bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)

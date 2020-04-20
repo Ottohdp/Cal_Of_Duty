@@ -1,4 +1,9 @@
+# Basic arcade program using objects
+# Displays a white window with a blue circle in the middle
+
 # Imports
+from typing import Tuple
+
 import arcade
 import random
 import time
@@ -16,9 +21,12 @@ BULLET_SPEED = 50
 
 RIGHT_FACING = 0
 LEFT_FACING = 1
+Up_FACING = 2
+DOWN_FACING = 3
 TEXTURE_LEFT = 0
 TEXTURE_RIGHT = 1
-
+TEXTURE_UP = 2
+TEXTURE_DOWN = 3
 
 # Classes
 class Npcsprite(arcade.Sprite):
@@ -26,10 +34,6 @@ class Npcsprite(arcade.Sprite):
     def update(self):
         # ryk sprites
         super().update()
-
-        # Fjern en sprite hvis den er uden for skærmen.
-        if self.left < 0:
-            self.remove_from_sprite_lists()
 
 
 class Player(arcade.Sprite):
@@ -44,9 +48,13 @@ class Player(arcade.Sprite):
         self.textures.append(texture)
         texture = arcade.load_texture("images/Cal_hjre.png", mirrored=True)
         self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_bag.png")
+        self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_front.png")
+        self.textures.append(texture)
         self.scale = CHARACTER_SCALING
         # By default, face right.
-        self.set_texture(TEXTURE_RIGHT)
+        self.set_texture(TEXTURE_LEFT)
 
     def update(self):
         self.center_x += self.change_x
@@ -56,14 +64,11 @@ class Player(arcade.Sprite):
             self.texture = self.textures[TEXTURE_LEFT]
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_RIGHT]
-        if self.left < 0:
-            self.left = 0
-        elif self.right > SCREEN_WIDTH - 1:
-            self.right = SCREEN_WIDTH - 1
-        if self.bottom < 0:
-            self.bottom = 0
-        elif self.top > SCREEN_HEIGHT - 1:
-            self.top = SCREEN_HEIGHT - 1
+        if self.change_y < 0:
+            self.texture = self.textures[TEXTURE_UP]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_DOWN]
+
 
 class COD(arcade.Window):
 
@@ -78,6 +83,8 @@ class COD(arcade.Window):
         # Set the background color
         arcade.set_background_color(arcade.color.WHITE)
 
+        self.score = 0
+
     def setup(self):
 
         # Set up the player
@@ -91,7 +98,8 @@ class COD(arcade.Window):
 
         self.paused = False
         self.collided = False
-        self.collision_timer = 0.0
+        self.HP = 3
+        self.score = 0
 
     def moving(self, direction):
         while True:
@@ -162,9 +170,13 @@ class COD(arcade.Window):
 
         if symbol == arcade.key.W or symbol == arcade.key.UP:
             self.player_sprite.change_y = 180
+            # Sprite vendes
+            self.player_sprite.set_texture(TEXTURE_UP)
 
         if symbol == arcade.key.S or symbol == arcade.key.DOWN:
             self.player_sprite.change_y = -180
+            # Sprite vendes
+            self.player_sprite.set_texture(TEXTURE_DOWN)
 
         if symbol == arcade.key.A or symbol == arcade.key.LEFT:
             self.player_sprite.change_x = -180
@@ -177,10 +189,9 @@ class COD(arcade.Window):
             self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.SPACE:
-            # Create a bullet
             bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
-            bullet_angle = 0
             bullet.change_x = BULLET_SPEED
+            bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
@@ -225,21 +236,34 @@ class COD(arcade.Window):
 
             for enemy in hit_list:
                 enemy.remove_from_sprite_lists()
+                self.score += 1
 
             # If the bullet flies off-screen, remove it.
             if bullet.bottom > SCREEN_WIDTH:
                 bullet.remove_from_sprite_lists()
 
-        liv = 3
+        if self.HP == 0:
+            time.sleep(2)
+            arcade.close_window()
         # Did we collide with something earlier? If so, update our timer
         if self.collided:
-            self.collision_timer += delta_time
-            # If we've paused for two seconds, we can quit
-            if self.collision_timer > 2.0:
-                liv = liv - 1
-                time.sleep(3)
-            if liv == 0:
-                arcade.close_window()
+            for enemy in self.enemies_list:
+
+                enemy_hit = arcade.check_for_collision_with_list(self.player_sprite, self.enemies_list)
+
+                if len(enemy_hit) > 0:
+                    enemy.remove_from_sprite_lists()
+
+                for enemy in enemy_hit:
+                    enemy.remove_from_sprite_lists()
+
+                    self.collided = False
+                    self.HP -= 1
+
+            #self.collision_timer += delta_time
+            # If we've paused for two seconds, we can quitw
+            #if self.collision_timer > 2.0:
+                #arcade.close_window()
 
             # Stop updating things as well
             return
@@ -261,7 +285,6 @@ class COD(arcade.Window):
             sprite.center_y = int(
                 sprite.center_y + sprite.change_y * delta_time
             )
-        # self.all_sprites.update()
 
         # Keep the player on screen
         if self.player_sprite.top > self.height:
@@ -284,7 +307,12 @@ class COD(arcade.Window):
         self.all_sprites.draw()
         self.bullet_list.draw()
 
+        # Put the text on the screen.
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 20, arcade.color.BLACK, 14)
 
+        output = f"Lives: {self.HP}"
+        arcade.draw_text(output, 10, 40, arcade.color.RED, 20)
 
 # Main code entry point
 if __name__ == "__main__":
