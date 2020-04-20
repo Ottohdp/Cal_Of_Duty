@@ -1,9 +1,4 @@
-# Basic arcade program using objects
-# Displays a white window with a blue circle in the middle
-
 # Imports
-from typing import Tuple
-
 import arcade
 import random
 import time
@@ -28,48 +23,9 @@ TEXTURE_RIGHT = 1
 TEXTURE_UP = 2
 TEXTURE_DOWN = 3
 
+
 # Classes
-class Npcsprite(arcade.Sprite):
-
-    def update(self):
-        # ryk sprites
-        super().update()
-
-
-class Player(arcade.Sprite):
-
-    def __init__(self):
-        super().__init__()
-
-        self.textures = []
-        # Load a left facing texture and a right facing texture.
-        # mirrored=True will mirror the image we load.
-        texture = arcade.load_texture("images/Cal_hjre.png")
-        self.textures.append(texture)
-        texture = arcade.load_texture("images/Cal_hjre.png", mirrored=True)
-        self.textures.append(texture)
-        texture = arcade.load_texture("images/Cal_bag.png")
-        self.textures.append(texture)
-        texture = arcade.load_texture("images/Cal_front.png")
-        self.textures.append(texture)
-        self.scale = CHARACTER_SCALING
-        # By default, face right.
-        self.set_texture(TEXTURE_LEFT)
-
-    def update(self):
-        self.center_x += self.change_x
-        self.center_y += self.change_y
-        # Figure out if we should face left or right
-        if self.change_x < 0:
-            self.texture = self.textures[TEXTURE_LEFT]
-        elif self.change_x > 0:
-            self.texture = self.textures[TEXTURE_RIGHT]
-        if self.change_y < 0:
-            self.texture = self.textures[TEXTURE_UP]
-        elif self.change_x > 0:
-            self.texture = self.textures[TEXTURE_DOWN]
-
-class COD(arcade.Window):
+class CalOnDuty(arcade.Window, object):
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
@@ -81,6 +37,8 @@ class COD(arcade.Window):
 
         # Set the background color
         arcade.set_background_color(arcade.color.WHITE)
+
+        self.score = 0
 
     def setup(self):
 
@@ -96,6 +54,7 @@ class COD(arcade.Window):
         self.paused = False
         self.collided = False
         self.HP = 3
+        self.score = 0
 
     def moving(self, direction):
         while True:
@@ -224,7 +183,7 @@ class COD(arcade.Window):
         for bullet in self.bullet_list:
 
             # Check this bullet to see if it hit a coin
-            hit_list = arcade.check_for_collision_with_list(bullqet, self.enemies_list)
+            hit_list = arcade.check_for_collision_with_list(bullet, self.enemies_list)
 
             # If it did, get rid of the bullet
             if len(hit_list) > 0:
@@ -232,6 +191,7 @@ class COD(arcade.Window):
 
             for enemy in hit_list:
                 enemy.remove_from_sprite_lists()
+                self.score += 1
 
             # If the bullet flies off-screen, remove it.
             if bullet.bottom > SCREEN_WIDTH:
@@ -255,10 +215,10 @@ class COD(arcade.Window):
                     self.collided = False
                     self.HP -= 1
 
-            #self.collision_timer += delta_time
+            # self.collision_timer += delta_time
             # If we've paused for two seconds, we can quitw
-            #if self.collision_timer > 2.0:
-                #arcade.close_window()
+            # if self.collision_timer > 2.0:
+            # arcade.close_window()
 
             # Stop updating things as well
             return
@@ -302,10 +262,51 @@ class COD(arcade.Window):
         self.all_sprites.draw()
         self.bullet_list.draw()
 
+        # Put the text on the screen.
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 20, arcade.color.BLACK, 14)
+
+        output = f"Lives: {self.HP}"
+        arcade.draw_text(output, 10, 40, arcade.color.RED, 20)
+
+
+class Player(arcade.Sprite, CalOnDuty):
+
+    def __init__(self):
+        super().__init__()
+
+        self.textures = []
+        # Load a left facing texture and a right facing texture.
+        # mirrored=True will mirror the image we load.
+        texture = arcade.load_texture("images/Cal_hjre.png")
+        self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_hjre.png", mirrored=True)
+        self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_bag.png")
+        self.textures.append(texture)
+        texture = arcade.load_texture("images/Cal_front.png")
+        self.textures.append(texture)
+        self.scale = CHARACTER_SCALING
+        # By default, face right.
+        self.set_texture(TEXTURE_LEFT)
+
+    def update(self):
+        super().update()
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+        # Figure out if we should face left or right
+        if self.change_x < 0:
+            self.texture = self.textures[TEXTURE_LEFT]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_RIGHT]
+        if self.change_y < 0:
+            self.texture = self.textures[TEXTURE_UP]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_DOWN]
 
 
 # Main code entry point
 if __name__ == "__main__":
-    app = COD(int(SCREEN_WIDTH * SCALING), int(SCREEN_HEIGHT * SCALING), SCREEN_TITLE)
+    app = CalOnDuty(int(SCREEN_WIDTH * SCALING), int(SCREEN_HEIGHT * SCALING), SCREEN_TITLE)
     app.setup()
     arcade.run()
