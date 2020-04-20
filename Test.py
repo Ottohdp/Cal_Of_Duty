@@ -1,6 +1,3 @@
-# Basic arcade program using objects
-# Displays a white window with a blue circle in the middle
-
 # Imports
 from typing import Tuple
 
