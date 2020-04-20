@@ -144,12 +144,24 @@ class CalOnDuty(arcade.Window, object):
             self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.SPACE:
-            # Create a bullet
             bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
-            bullet.change_x = BULLET_SPEED
+            bullet.change_x = 0
+            bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
+
+            if self.player_sprite.change_x < 0:
+                bullet.change_x = -50
+
+            if self.player_sprite.change_x > 0:
+                bullet.change_x = 50
+
+            if self.player_sprite.change_y > 0:
+                bullet.change_y = 50
+
+            if self.player_sprite.change_y < 0:
+                bullet.change_y = -50
 
     def on_key_release(self, symbol: int, modifiers: int):
 
