@@ -5,6 +5,7 @@ import arcade
 import random
 import time
 
+
 # Constants
 SCREEN_WIDTH = 1400
 SCREEN_HEIGHT = 900
@@ -14,12 +15,7 @@ WIDTH = SCREEN_WIDTH - 20
 HEIGHT = SCREEN_HEIGHT - 20
 SCALING = 0.7
 CHARACTER_SCALING = 0.7
-BULLET_SPEED = 50
 
-RIGHT_FACING = 0
-LEFT_FACING = 1
-Up_FACING = 2
-DOWN_FACING = 3
 TEXTURE_RIGHT = 0
 TEXTURE_LEFT = 1
 TEXTURE_UP = 2
@@ -65,7 +61,6 @@ class Player(arcade.Sprite):
             self.texture = self.textures[TEXTURE_UP]
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_DOWN]
-
 
 
 class COD(arcade.Window):
@@ -188,8 +183,6 @@ class COD(arcade.Window):
 
         if symbol == arcade.key.SPACE:
             bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
-            bullet.change_x = 0
-            bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
@@ -223,6 +216,8 @@ class COD(arcade.Window):
                 or symbol == arcade.key.RIGHT
         ):
             self.player_sprite.change_x = 0
+
+
 
     def on_update(self, delta_time: float):
         """Update the positions and statuses of all game objects

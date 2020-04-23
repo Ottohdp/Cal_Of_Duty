@@ -1,6 +1,3 @@
-# Basic arcade program using objects
-# Displays a white window with a blue circle in the middle
-
 # Imports
 from typing import Tuple
 
@@ -17,14 +14,13 @@ WIDTH = SCREEN_WIDTH - 20
 HEIGHT = SCREEN_HEIGHT - 20
 SCALING = 0.7
 CHARACTER_SCALING = 0.7
-BULLET_SPEED = 50
 
 RIGHT_FACING = 0
 LEFT_FACING = 1
 Up_FACING = 2
 DOWN_FACING = 3
-TEXTURE_LEFT = 0
-TEXTURE_RIGHT = 1
+TEXTURE_RIGHT = 0
+TEXTURE_LEFT = 1
 TEXTURE_UP = 2
 TEXTURE_DOWN = 3
 
@@ -54,20 +50,21 @@ class Player(arcade.Sprite):
         self.textures.append(texture)
         self.scale = CHARACTER_SCALING
         # By default, face right.
-        self.set_texture(TEXTURE_LEFT)
+        self.set_texture(TEXTURE_RIGHT)
 
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
         # Figure out if we should face left or right
         if self.change_x < 0:
-            self.texture = self.textures[TEXTURE_LEFT]
-        elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_RIGHT]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_LEFT]
         if self.change_y < 0:
             self.texture = self.textures[TEXTURE_UP]
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_DOWN]
+
 
 
 class COD(arcade.Window):
@@ -181,20 +178,30 @@ class COD(arcade.Window):
         if symbol == arcade.key.A or symbol == arcade.key.LEFT:
             self.player_sprite.change_x = -180
             # Sprite vendes
-            self.player_sprite.set_texture(TEXTURE_RIGHT)
+            self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.D or symbol == arcade.key.RIGHT:
             self.player_sprite.change_x = 180
             # Sprite vendes:
-            self.player_sprite.set_texture(TEXTURE_LEFT)
+            self.player_sprite.set_texture(TEXTURE_RIGHT)
 
         if symbol == arcade.key.SPACE:
             bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
-            bullet.change_x = BULLET_SPEED
-            bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
+
+            if self.player_sprite.change_x < 0:
+                bullet.change_x = -50
+
+            if self.player_sprite.change_x > 0:
+                bullet.change_x = 50
+
+            if self.player_sprite.change_y > 0:
+                bullet.change_y = 50
+
+            if self.player_sprite.change_y < 0:
+                bullet.change_y = -50
 
     def on_key_release(self, symbol: int, modifiers: int):
 
@@ -213,6 +220,8 @@ class COD(arcade.Window):
                 or symbol == arcade.key.RIGHT
         ):
             self.player_sprite.change_x = 0
+
+
 
     def on_update(self, delta_time: float):
         """Update the positions and statuses of all game objects
@@ -266,7 +275,7 @@ class COD(arcade.Window):
                 #arcade.close_window()
 
             # Stop updating things as well
-            return
+            # return
 
         # If we're paused, don't update anything
         if self.paused:
