@@ -186,7 +186,7 @@ class COD(arcade.Window):
             self.player_sprite.set_texture(TEXTURE_LEFT)
 
         if symbol == arcade.key.SPACE:
-            bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
+            bullet = arcade.Sprite("images/skud.png", SCALING, image_width=10, image_height=10)
             bullet.change_x = 0
             bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
