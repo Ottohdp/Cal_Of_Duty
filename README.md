@@ -16,6 +16,14 @@ Forskellige niveauer/waves eller baner
 
 ![img](https://media.discordapp.net/attachments/687977293179912234/695242090971398164/unknown.png?width=720&height=470)
 
+Den 23-04-2020
+- Vi har prøvet at optimere måden skyder på, men uden held
+- Vi har prøvet at begrænse mængden af skud man kan skyde i sekundet til 1, igen uden held
+- Vi har fået skud modellen til at se bedre ud.
+
+Den 20-04-2020
+- Vi har tilføjet at man kan skyde i den retning man går i (dette er buggy og skal forbedres)
+- Vi har fjærnet ubruglig kode
 
 Den 16-04-2020
 - Vi har tilføjet point og de bliver displayed
