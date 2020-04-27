@@ -190,6 +190,7 @@ class COD(arcade.Window):
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
 
+            # Jeres bullet kan kun flytte sig hvis spritens x eller y er større eller mindre end 0, ikke hvis den = 0
             if self.player_sprite.change_x < 0:
                 bullet.change_x = -50
 
