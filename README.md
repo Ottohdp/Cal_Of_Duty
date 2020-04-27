@@ -16,6 +16,10 @@ Forskellige niveauer/waves eller baner
 
 ![img](https://media.discordapp.net/attachments/687977293179912234/695242090971398164/unknown.png?width=720&height=470)
 
+Den 27-04-2020
+- Vi har prøvet at tilføje nye våben (ikke færdigt)
+- Vi har gjort så man kan skyde i flere retninger ordentligt
+
 Den 23-04-2020
 - Vi har prøvet at optimere måden skyder på, men uden held
 - Vi har prøvet at begrænse mængden af skud man kan skyde i sekundet til 1, igen uden held
