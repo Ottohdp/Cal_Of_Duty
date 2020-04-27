@@ -14,6 +14,7 @@ WIDTH = SCREEN_WIDTH - 20
 HEIGHT = SCREEN_HEIGHT - 20
 SCALING = 0.7
 CHARACTER_SCALING = 0.7
+BULLET_SPEED = 50
 
 RIGHT_FACING = 0
 LEFT_FACING = 1
@@ -186,10 +187,16 @@ class COD(arcade.Window):
             self.player_sprite.set_texture(TEXTURE_RIGHT)
 
         if symbol == arcade.key.SPACE:
-            bullet = arcade.Sprite("images/skud.png", SCALING, image_width=20, image_height=10)
+            bullet = arcade.Sprite("images/skud.png", SCALING, image_width=10, image_height=10)
+            bullet.change_x = 0
+            bullet.change_y = 0
             bullet.center_x = self.player_sprite.center_x
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
+
+            if self.player_sprite.change_x == 0 and self.player_sprite.change_y == 0:
+                bullet.change_x = 50
+                bullet.change_y = 0
 
             if self.player_sprite.change_x < 0:
                 bullet.change_x = -50
@@ -220,7 +227,6 @@ class COD(arcade.Window):
                 or symbol == arcade.key.RIGHT
         ):
             self.player_sprite.change_x = 0
-
 
 
     def on_update(self, delta_time: float):
