@@ -19,6 +19,7 @@ Forskellige niveauer/waves eller baner
 Den 27-04-2020
 - Vi har prøvet at tilføje nye våben (ikke færdigt)
 - Vi har gjort så man kan skyde i flere retninger ordentligt
+- Vi har arbejdet på at får zombierne til at følge efter spilleren
 
 Den 23-04-2020
 - Vi har prøvet at optimere måden skyder på, men uden held
