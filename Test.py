@@ -194,16 +194,16 @@ class COD(arcade.Window):
             bullet.center_y = self.player_sprite.center_y
             self.bullet_list.append(bullet)
 
-            if self.player_sprite.change_x < 0:
-                bullet.change_x = -50
-
-            if self.player_sprite.change_x > 0:
+            if self.player_sprite.texture == self.player_sprite.textures[0]:
                 bullet.change_x = 50
 
-            if self.player_sprite.change_y > 0:
+            if self.player_sprite.texture == self.player_sprite.textures[1]:
+                bullet.change_x = -50
+
+            if self.player_sprite.texture == self.player_sprite.textures[2]:
                 bullet.change_y = 50
 
-            if self.player_sprite.change_y < 0:
+            if self.player_sprite.texture == self.player_sprite.textures[3]:
                 bullet.change_y = -50
 
     def on_key_release(self, symbol: int, modifiers: int):
