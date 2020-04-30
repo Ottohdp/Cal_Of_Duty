@@ -129,7 +129,7 @@ class COD(arcade.Window):
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
 
-                enemy.velocity = (random.randint(zombieSpeed, zombieSpeed), 0)
+                #enemy.velocity = (random.randint(-zombieSpeed, -zombieSpeed), 0)
 
                 # Add it to the enemies list
                 self.enemies_list.append(enemy)
