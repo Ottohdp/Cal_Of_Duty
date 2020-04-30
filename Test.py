@@ -4,6 +4,7 @@ from typing import Tuple
 import arcade
 import random
 import time
+import math
 
 # Constants
 SCREEN_WIDTH = 1400
@@ -15,11 +16,7 @@ HEIGHT = SCREEN_HEIGHT - 20
 SCALING = 0.7
 CHARACTER_SCALING = 0.7
 BULLET_SPEED = 50
-
-RIGHT_FACING = 0
-LEFT_FACING = 1
-Up_FACING = 2
-DOWN_FACING = 3
+zombieSpeed = 50
 TEXTURE_RIGHT = 0
 TEXTURE_LEFT = 1
 TEXTURE_UP = 2
@@ -31,6 +28,24 @@ class Npcsprite(arcade.Sprite):
     def update(self):
         # ryk sprites
         super().update()
+
+    def follow_sprite(self, player_sprite):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        if random.randrange(100) == 0:
+            start_x = self.center_x
+            start_y = self.center_y
+
+            dest_x = player_sprite.center_x
+            dest_y = player_sprite.center_y
+
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            self.change_x = math.cos(angle) * zombieSpeed
+            self.change_y = math.sin(angle) * zombieSpeed
 
 
 class Player(arcade.Sprite):
@@ -65,7 +80,6 @@ class Player(arcade.Sprite):
             self.texture = self.textures[TEXTURE_UP]
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_DOWN]
-
 
 
 class COD(arcade.Window):
@@ -115,7 +129,7 @@ class COD(arcade.Window):
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
 
-                enemy.velocity = (random.randint(-50, -50), 0)
+                enemy.velocity = (random.randint(zombieSpeed, zombieSpeed), 0)
 
                 # Add it to the enemies list
                 self.enemies_list.append(enemy)
@@ -306,14 +320,12 @@ class COD(arcade.Window):
         if self.player_sprite.left < 0:
             self.player_sprite.left = 0
 
+        for enemy in self.enemies_list:
+            enemy.follow_sprite(self.player_sprite)
+
     def on_draw(self):
         # Clear the screen and start drawing
         arcade.start_render()
-        # arcade.draw_xywh_rectangle_outline(10, 10, WIDTH, HEIGHT, arcade.color.BLACK)
-        # arcade.draw_circle_filled(-1, -1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(-1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(SCREEN_WIDTH + 1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(SCREEN_WIDTH + 1, -1, RADIUS, arcade.color.GRAY)
         self.all_sprites.draw()
         self.bullet_list.draw()
 
