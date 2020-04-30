@@ -29,23 +29,8 @@ class Npcsprite(arcade.Sprite):
         # ryk sprites
         super().update()
 
-    def follow_sprite(self, player_sprite):
-        self.center_x += self.change_x
-        self.center_y += self.change_y
 
-        if random.randrange(100) == 0:
-            start_x = self.center_x
-            start_y = self.center_y
 
-            dest_x = player_sprite.center_x
-            dest_y = player_sprite.center_y
-
-            x_diff = dest_x - start_x
-            y_diff = dest_y - start_y
-            angle = math.atan2(y_diff, x_diff)
-
-            self.change_x = math.cos(angle) * zombieSpeed
-            self.change_y = math.sin(angle) * zombieSpeed
 
 
 class Player(arcade.Sprite):
@@ -68,6 +53,24 @@ class Player(arcade.Sprite):
         # By default, face right.
         self.set_texture(TEXTURE_RIGHT)
 
+    def follow_sprite(self, player_sprite):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        if random.randrange(100) == 0:
+            start_x = self.center_x
+            start_y = self.center_y
+
+            dest_x = player_sprite.center_x
+            dest_y = player_sprite.center_y
+
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            self.change_x = math.cos(angle) * zombieSpeed
+            self.change_y = math.sin(angle) * zombieSpeed
+
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
@@ -80,6 +83,7 @@ class Player(arcade.Sprite):
             self.texture = self.textures[TEXTURE_UP]
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_DOWN]
+
 
 
 class COD(arcade.Window):
@@ -248,6 +252,9 @@ class COD(arcade.Window):
             delta_time {float} -- Time since the last update
         """
 
+        for enemy in self.enemies_list:
+            enemy.follow_sprite(self.player_sprite)
+
         self.bullet_list.update()
         for bullet in self.bullet_list:
 
@@ -320,8 +327,7 @@ class COD(arcade.Window):
         if self.player_sprite.left < 0:
             self.player_sprite.left = 0
 
-        for enemy in self.enemies_list:
-            enemy.follow_sprite(self.player_sprite)
+
 
     def on_draw(self):
         # Clear the screen and start drawing
