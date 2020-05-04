@@ -16,6 +16,10 @@ Forskellige niveauer/waves eller baner
 
 Den 30-04-2020
 - Vi har prøvet at implementere at zombierne følger spilleren
+- Fjernet noget unødvendigt kode
+
+Den 30-04-2020
+- Vi har prøvet at implementere at zombierne følger spilleren
 
 Den 27-04-2020
 - Vi har prøvet at tilføje nye våben (ikke færdigt)
