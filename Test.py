@@ -59,8 +59,8 @@ class Player(arcade.Sprite):
 
 
 class Enemy(arcade.Sprite):
-    def __init__(self, zombie, scaling, width, heigth):
-        super(zombie, scaling, width, heigth)
+    def __init__(self, zombie, scaling, width, height):
+        super().__init__()
 
     def follow_sprite(self, player_sprite):
         self.center_x += self.change_x
@@ -186,7 +186,7 @@ class COD(arcade.Window):
 
     def add_enemy(self, delta_time: float):
         # First, create the new enemy sprite
-        enemy = Enemy("images/zombie.png", SCALING, image_width=90, image_height=150)
+        enemy = Enemy("images/zombie.png", SCALING, width=90, height=150)
 
         for x in range(1):
             spawn = random.randint(1, 1)
