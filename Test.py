@@ -1,6 +1,4 @@
 # Imports
-from typing import Tuple
-
 import arcade
 import random
 import time
