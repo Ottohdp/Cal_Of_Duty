@@ -1,9 +1,8 @@
 # Imports
-from typing import Tuple
-
 import arcade
 import random
 import time
+import math
 
 # Constants
 SCREEN_WIDTH = 1400
@@ -15,24 +14,22 @@ HEIGHT = SCREEN_HEIGHT - 20
 SCALING = 0.7
 CHARACTER_SCALING = 0.7
 BULLET_SPEED = 50
-
-RIGHT_FACING = 0
-LEFT_FACING = 1
-Up_FACING = 2
-DOWN_FACING = 3
+zombieSpeed = 50
 TEXTURE_RIGHT = 0
 TEXTURE_LEFT = 1
 TEXTURE_UP = 2
 TEXTURE_DOWN = 3
 
+def load_texture_pair(filename):
+    """
+    Load a texture pair, with the second being a mirror image.
+    """
+    return [
+        arcade.load_texture(filename),
+        arcade.load_texture(filename, mirrored=True)
+    ]
+
 # Classes
-class Npcsprite(arcade.Sprite):
-
-    def update(self):
-        # ryk sprites
-        super().update()
-
-
 class Player(arcade.Sprite):
 
     def __init__(self):
@@ -65,6 +62,42 @@ class Player(arcade.Sprite):
             self.texture = self.textures[TEXTURE_UP]
         elif self.change_x > 0:
             self.texture = self.textures[TEXTURE_DOWN]
+
+
+class Enemy(arcade.Sprite):
+    def __init__(self, player_sprite):
+        super().__init__()
+        self.player_sprite = player_sprite
+        self.scale = 0.7
+        texture_list = []
+        main_path = "Images/zombie.png"
+        texture_list.append(main_path)
+        self.idle_texture_pair = load_texture_pair(texture_list[0])
+        self.texture = self.idle_texture_pair[1]
+
+    def update_animation(self, delta_time: float = 1/60):
+        if self.change_x == 0 and self.change_y == 0:
+            self.texture = self.idle_texture_pair[1]
+            return
+
+    def follow_sprite(self):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        if random.randrange(100) == 0:
+            start_x = self.center_x
+            start_y = self.center_y
+
+            dest_x = self.player_sprite.center_x
+            dest_y = self.player_sprite.center_y
+
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            self.change_x = math.cos(angle) * 1
+            self.change_y = math.sin(angle) * 1
+
 
 
 
@@ -102,60 +135,6 @@ class COD(arcade.Window):
     def moving(self, direction):
         while True:
             self.player.change_y = direction
-
-    def add_enemy(self, delta_time: float):
-        # First, create the new enemy sprite
-        enemy = arcade.Sprite("images/zombie.png", SCALING, image_width=90, image_height=150)
-
-        for x in range(1):
-            spawn = random.randint(1, 1)
-
-            if spawn == 1:
-                # Set its position to a random height and off screen right
-                enemy.left = random.randint(self.width + 90, self.width + 90)
-                enemy.top = random.randint(100, self.height)
-
-                enemy.velocity = (random.randint(-50, -50), 0)
-
-                # Add it to the enemies list
-                self.enemies_list.append(enemy)
-                self.all_sprites.append(enemy)
-
-            # if spawn == 2:
-            # Set its position to a random height and off screen right
-            # enemy.left = random.randint(0, self.width - 90)
-            # enemy.top = random.randint(self.height + 150, self.height + 150)
-
-            # Set its speed to a random speed heading left
-            # enemy.velocity = (random.randint(0, 0), -50)
-
-            # Add it to the enemies list
-            # self.enemies_list.append(enemy)
-            # self.all_sprites.append(enemy)
-
-            # if spawn == 3:
-            # Set its position to a random height and off screen right
-            # enemy.left = random.randint(-90, -90)
-            # enemy.top = random.randint(100, self.height)
-
-            # Set its speed to a random speed heading left
-            # enemy.velocity = (random.randint(50, 50), 0)
-
-            # Add it to the enemies list
-            # self.enemies_list.append(enemy)
-            # self.all_sprites.append(enemy)
-
-            # if spawn == 4:
-            # Set its position to a random height and off screen right
-            # enemy.left = random.randint(0, self.width - 90)
-            # enemy.top = random.randint(-150, -150)
-
-            # Set its speed to a random speed heading left
-            # enemy.velocity = (random.randint(0, 0), 50)
-
-            # Add it to the enemies list
-            # self.enemies_list.append(enemy)
-            # self.all_sprites.append(enemy)
 
     def on_key_press(self, symbol, modifiers):
 
@@ -207,7 +186,6 @@ class COD(arcade.Window):
                 bullet.change_y = -50
 
     def on_key_release(self, symbol: int, modifiers: int):
-
         if (
                 symbol == arcade.key.W
                 or symbol == arcade.key.S
@@ -224,15 +202,41 @@ class COD(arcade.Window):
         ):
             self.player_sprite.change_x = 0
 
-    def on_update(self, delta_time: float):
-        """Update the positions and statuses of all game objects
-        If we're paused, do nothing
-        Once everything has moved, check for collisions between
-        the player and the list of enemies
+    def add_enemy(self, delta_time: float):
+        # First, create the new enemy sprite
+        enemy = Enemy(self.player_sprite)
 
-        Arguments:
-            delta_time {float} -- Time since the last update
-        """
+        for x in range(1):
+            spawn = random.randint(1, 1)
+
+            if spawn == 1:
+                # Set its position to a random height and the right side of the screen
+                enemy.left = random.randint(self.width + 90, self.width + 90)
+                enemy.top = random.randint(100, self.height)
+
+
+                # Add it to the enemies list
+                self.enemies_list.append(enemy)
+                self.all_sprites.append(enemy)
+
+            # if spawn == 2:
+            # Set its position to a random height and off screen right
+            # enemy.left = random.randint(0, self.width - 90)
+            # enemy.top = random.randint(self.height + 150, self.height + 150)
+
+            # Set its speed to a random speed heading left
+            # enemy.velocity = (random.randint(0, 0), -50)
+
+            # Add it to the enemies list
+            # self.enemies_list.append(enemy)
+            # self.all_sprites.append(enemy)
+
+    def on_update(self, delta_time: float):
+        self.enemies_list.update()
+        self.enemies_list.update_animation()
+
+        for enemy in self.enemies_list:
+            enemy.follow_sprite()
 
         self.bullet_list.update()
         for bullet in self.bullet_list:
@@ -270,13 +274,6 @@ class COD(arcade.Window):
                     self.collided = False
                     self.HP -= 1
 
-            #self.collision_timer += delta_time
-            # If we've paused for two seconds, we can quitw
-            #if self.collision_timer > 2.0:
-                #arcade.close_window()
-
-            # Stop updating things as well
-            # return
 
         # If we're paused, don't update anything
         if self.paused:
@@ -306,14 +303,11 @@ class COD(arcade.Window):
         if self.player_sprite.left < 0:
             self.player_sprite.left = 0
 
+
+
     def on_draw(self):
         # Clear the screen and start drawing
         arcade.start_render()
-        # arcade.draw_xywh_rectangle_outline(10, 10, WIDTH, HEIGHT, arcade.color.BLACK)
-        # arcade.draw_circle_filled(-1, -1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(-1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(SCREEN_WIDTH + 1, SCREEN_HEIGHT + 1, RADIUS, arcade.color.GRAY)
-        # arcade.draw_circle_filled(SCREEN_WIDTH + 1, -1, RADIUS, arcade.color.GRAY)
         self.all_sprites.draw()
         self.bullet_list.draw()
 
@@ -323,6 +317,7 @@ class COD(arcade.Window):
 
         output = f"Lives: {self.HP}"
         arcade.draw_text(output, 10, 40, arcade.color.RED, 20)
+
 
 # Main code entry point
 if __name__ == "__main__":
