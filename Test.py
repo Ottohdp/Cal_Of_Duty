@@ -20,6 +20,14 @@ TEXTURE_LEFT = 1
 TEXTURE_UP = 2
 TEXTURE_DOWN = 3
 
+def load_texture_pair(filename):
+    """
+    Load a texture pair, with the second being a mirror image.
+    """
+    return [
+        arcade.load_texture(filename),
+        arcade.load_texture(filename, mirrored=True)
+    ]
 
 # Classes
 class Player(arcade.Sprite):
@@ -57,10 +65,22 @@ class Player(arcade.Sprite):
 
 
 class Enemy(arcade.Sprite):
-    def __init__(self, zombie, scaling, width, height):
+    def __init__(self, player_sprite):
         super().__init__()
+        self.player_sprite = player_sprite
+        self.scale = 0.7
+        texture_list = []
+        main_path = "Images/zombie.png"
+        texture_list.append(main_path)
+        self.idle_texture_pair = load_texture_pair(texture_list[0])
+        self.texture = self.idle_texture_pair[1]
 
-    def follow_sprite(self, player_sprite):
+    def update_animation(self, delta_time: float = 1/60):
+        if self.change_x == 0 and self.change_y == 0:
+            self.texture = self.idle_texture_pair[1]
+            return
+
+    def follow_sprite(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
 
@@ -68,15 +88,15 @@ class Enemy(arcade.Sprite):
             start_x = self.center_x
             start_y = self.center_y
 
-            dest_x = player_sprite.center_x
-            dest_y = player_sprite.center_y
+            dest_x = self.player_sprite.center_x
+            dest_y = self.player_sprite.center_y
 
             x_diff = dest_x - start_x
             y_diff = dest_y - start_y
             angle = math.atan2(y_diff, x_diff)
 
-            self.change_x = math.cos(angle) * zombieSpeed
-            self.change_y = math.sin(angle) * zombieSpeed
+            self.change_x = math.cos(angle) * 1
+            self.change_y = math.sin(angle) * 1
 
 
 
@@ -184,17 +204,16 @@ class COD(arcade.Window):
 
     def add_enemy(self, delta_time: float):
         # First, create the new enemy sprite
-        enemy = Enemy("images/zombie.png", SCALING, width=90, height=150)
+        enemy = Enemy(self.player_sprite)
 
         for x in range(1):
             spawn = random.randint(1, 1)
 
             if spawn == 1:
-                # Set its position to a random height and off screen right
+                # Set its position to a random height and the right side of the screen
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
 
-                enemy.velocity = (random.randint(zombieSpeed, zombieSpeed), 0)
 
                 # Add it to the enemies list
                 self.enemies_list.append(enemy)
@@ -214,9 +233,10 @@ class COD(arcade.Window):
 
     def on_update(self, delta_time: float):
         self.enemies_list.update()
+        self.enemies_list.update_animation()
 
         for enemy in self.enemies_list:
-            enemy.follow_sprite(self.player_sprite)
+            enemy.follow_sprite()
 
         self.bullet_list.update()
         for bullet in self.bullet_list:
