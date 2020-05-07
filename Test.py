@@ -60,7 +60,7 @@ class Player(arcade.Sprite):
 
 class Enemy(arcade.Sprite):
     def __init__(self, zombie, scaling, width, heigth):
-        super(zombie, scaling, width, heigth)
+        super().__init__()
 
     def follow_sprite(self, player_sprite):
         self.center_x += self.change_x
@@ -192,8 +192,8 @@ class COD(arcade.Window):
             spawn = random.randint(1, 1)
 
             if spawn == 1:
-                # Set its position to a random height and off screen right
-                enemy.left = random.randint(self.width + 90, self.width + 90)
+                # Set its position to a random height and the right side of the screen
+                enemy.left = random.randint(self.width - 90, self.width - 90)
                 enemy.top = random.randint(100, self.height)
 
                 enemy.velocity = (random.randint(zombieSpeed, zombieSpeed), 0)
