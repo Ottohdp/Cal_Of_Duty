@@ -14,9 +14,13 @@ Forskellige niveauer/waves eller baner
 
 ![img](https://media.discordapp.net/attachments/687977293179912234/695242090971398164/unknown.png?width=720&height=470)
 
-Den 30-04-2020
+Den 07-05-2020
+- Vi har fået zombierne til at følge spilleren
+- Vi har fjernet en smule unødvendig kode
+- Kigget hurtigt på klasse diagrammer
+
+Den 03-05-2020
 - Vi har prøvet at implementere at zombierne følger spilleren
-# Vi har brug for hjælp til det ovenover
 - Fjernet noget unødvendigt kode
 
 
