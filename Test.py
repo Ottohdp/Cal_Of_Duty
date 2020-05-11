@@ -20,6 +20,7 @@ TEXTURE_LEFT = 1
 TEXTURE_UP = 2
 TEXTURE_DOWN = 3
 
+
 def load_texture_pair(filename):
     """
     Load a texture pair, with the second being a mirror image.
@@ -28,6 +29,7 @@ def load_texture_pair(filename):
         arcade.load_texture(filename),
         arcade.load_texture(filename, mirrored=True)
     ]
+
 
 # Classes
 class Player(arcade.Sprite):
@@ -49,19 +51,6 @@ class Player(arcade.Sprite):
         self.scale = CHARACTER_SCALING
         # By default, face right.
         self.set_texture(TEXTURE_RIGHT)
-
-    def update(self):
-        self.center_x += self.change_x
-        self.center_y += self.change_y
-        # Figure out if we should face left or right
-        if self.change_x < 0:
-            self.texture = self.textures[TEXTURE_RIGHT]
-        elif self.change_x > 0:
-            self.texture = self.textures[TEXTURE_LEFT]
-        if self.change_y < 0:
-            self.texture = self.textures[TEXTURE_UP]
-        elif self.change_x > 0:
-            self.texture = self.textures[TEXTURE_DOWN]
 
 
 class Enemy(arcade.Sprite):
@@ -92,8 +81,6 @@ class Enemy(arcade.Sprite):
 
             self.change_x = math.cos(angle) * 1
             self.change_y = math.sin(angle) * 1
-
-
 
 
 class COD(arcade.Window):
@@ -205,7 +192,6 @@ class COD(arcade.Window):
                 enemy.left = random.randint(self.width + 90, self.width + 90)
                 enemy.top = random.randint(100, self.height)
 
-
                 # Add it to the enemies list
                 self.enemies_list.append(enemy)
                 self.all_sprites.append(enemy)
@@ -265,7 +251,6 @@ class COD(arcade.Window):
                     self.collided = False
                     self.HP -= 1
 
-
         # If we're paused, don't update anything
         if self.paused:
             return
@@ -293,8 +278,6 @@ class COD(arcade.Window):
             self.player_sprite.bottom = 0
         if self.player_sprite.left < 0:
             self.player_sprite.left = 0
-
-
 
     def on_draw(self):
         # Clear the screen and start drawing
