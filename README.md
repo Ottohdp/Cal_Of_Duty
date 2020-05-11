@@ -14,6 +14,11 @@ Forskellige niveauer/waves eller baner
 
 ![img](https://media.discordapp.net/attachments/687977293179912234/695242090971398164/unknown.png?width=720&height=470)
 
+Den 11-05-2020
+- Lavet UML klasse diagram
+- Fjernet unødvendig kode
+- Vi har ikke nået at implementere nye våben
+
 Den 07-05-2020
 - Vi har fået zombierne til at følge spilleren
 - Vi har fjernet en smule unødvendig kode
