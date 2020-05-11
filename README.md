@@ -1,8 +1,8 @@
 # Cal On Duty - Af Eskild og Otto
 
-Vi har prøvet at lave et **2d zombie-skydespil**. I vores spil vil der spawne zombier fra højre side som du bliver nød til at skyde for at overleve. Hvis du bliver ramt af en zombie 3 gange, så taber du. Samt hvis zombierne når hen til den anden side af spillet, taber du også.
+Vi har prøvet at lave et **2d zombie-skydespil**. I vores spil vil der spawne zombier fra højre side som du bliver nød til at skyde for at overleve. Hvis du bliver ramt af en zombie 3 gange, så taber du.
 
-
+![img](https://media.discordapp.net/attachments/687977293179912234/709382728063385600/unknown.png?width=670&height=640)
 
 Følgende ting kan ændre sig (*ting vi vil arbejde på*):
 
@@ -13,6 +13,11 @@ Forskellige niveauer/waves eller baner
 
 
 ![img](https://media.discordapp.net/attachments/687977293179912234/695242090971398164/unknown.png?width=720&height=470)
+
+Den 11-05-2020
+- Lavet UML klasse diagram
+- Fjernet unødvendig kode
+- Vi har ikke nået at implementere nye våben
 
 Den 07-05-2020
 - Vi har fået zombierne til at følge spilleren
