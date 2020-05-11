@@ -2,7 +2,7 @@
 
 Vi har prøvet at lave et **2d zombie-skydespil**. I vores spil vil der spawne zombier fra højre side som du bliver nød til at skyde for at overleve. Hvis du bliver ramt af en zombie 3 gange, så taber du.
 
-![img].(https://media.discordapp.net/attachments/687977293179912234/709382728063385600/unknown.png?width=670&height=640)
+![img](https://media.discordapp.net/attachments/687977293179912234/709382728063385600/unknown.png?width=670&height=640)
 
 Følgende ting kan ændre sig (*ting vi vil arbejde på*):
 
