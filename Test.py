@@ -132,10 +132,6 @@ class COD(arcade.Window):
         self.HP = 3
         self.score = 0
 
-    def moving(self, direction):
-        while True:
-            self.player.change_y = direction
-
     def on_key_press(self, symbol, modifiers):
 
         if symbol == arcade.key.Q:
