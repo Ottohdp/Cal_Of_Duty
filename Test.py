@@ -75,11 +75,6 @@ class Enemy(arcade.Sprite):
         self.idle_texture_pair = load_texture_pair(texture_list[0])
         self.texture = self.idle_texture_pair[1]
 
-    def update_animation(self, delta_time: float = 1/60):
-        if self.change_x == 0 and self.change_y == 0:
-            self.texture = self.idle_texture_pair[1]
-            return
-
     def follow_sprite(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
